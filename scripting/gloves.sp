@@ -5,6 +5,7 @@
 #include <csgoitems>
 #include <clientprefs>
 #include <multicolors>
+#include <autoexecconfig>
 
 #pragma newdecls required
 
@@ -71,8 +72,13 @@ public void OnPluginStart()
     g_hAllSkins = RegClientCookie("ws_allskins", "Show all skins", CookieAccess_Private);
     SetCookiePrefabMenu(g_hAllSkins, CookieMenu_OnOff_Int, "Show all skins", Cookie_Request);
 
-    g_cFlag = CreateConVar("gloves_flag", "t", "Flag to get access");
-    g_cInterval = CreateConVar("gloves_interval", "t", "Interval between changes");
+    AutoExecConfig_SetCreateDirectory(true);
+    AutoExecConfig_SetCreateFile(true);
+    AutoExecConfig_SetFile("plugin.gloves");
+    g_cFlag = AutoExecConfig_CreateConVar("gloves_flag", "t", "Flag to get access");
+    g_cInterval = AutoExecConfig_CreateConVar("gloves_interval", "t", "Interval between changes");
+    AutoExecConfig_ExecuteFile();
+    AutoExecConfig_CleanFile();
 
     LoopClients(i)
     {
