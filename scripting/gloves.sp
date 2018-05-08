@@ -275,7 +275,8 @@ public Action Command_Gloves(int client, int args)
 public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 {
     int client = GetClientOfUserId(event.GetInt("userid"));
-    if(IsClientInGame(client) && HasClientFlags(client, g_cFlag))
+
+    if(IsClientValid(client) && HasClientFlags(client, g_cFlag))
     {
         CreateTimer(0.2, Timer_UpdateClientGlove, GetClientUserId(client));
     }
@@ -612,7 +613,7 @@ public Action ResetGlovesTimer(Handle timer, DataPack pack)
     int client = pack.ReadCell();
     int iWeapon = pack.ReadCell();
 
-    if(IsClientInGame(client))
+    if(IsClientValid(client) && IsValidEntity(iWeapon))
     {
         SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", iWeapon);
     }
